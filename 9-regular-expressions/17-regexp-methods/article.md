@@ -116,67 +116,67 @@ alert( str.search( /ink/i ) ); // 10 (posición de la primera coincidencia)
 
 **Limitación importante: solo `search` encuentra la primera coincidencia.**
 
-If we need positions of further matches, we should use other means, such as finding them all with `str.matchAll(regexp)`.
+Si necesitamos las posiciones de las demás coincidencias, deberíamos usar otros medios, como encontrar todos con `str.matchAll(regexp)`.
 
 ## str.replace(str|regexp, str|func)
 
-This is a generic method for searching and replacing, one of most useful ones. The swiss army knife for searching and replacing.  
+Este es un método genérico para buscar y reemplazar, uno de los más útiles. La navaja suiza para buscar y reemplazar.  
 
-We can use it without regexps, to search and replace a substring:
+Podemos usarlo sin expresiones regular, para buscar y reemplazar una sub-cadena:
 
 ```js run
-// replace a dash by a colon
+// reemplazar guión por dos puntos
 alert('12-34-56'.replace("-", ":")) // 12:34-56
 ```
 
-There's a pitfall though.
+Sin embargo hay una trampa:
 
-**When the first argument of `replace` is a string, it only replaces the first match.**
+**Cuando el primer argumento de `replace` es una cadena, solo reemplaza la primera coincidencia.**
 
-You can see that in the example above: only the first `"-"` is replaced by `":"`.
+Puedes ver eso en el ejemplo anterior: solo el primer `"-"` es reemplazado por `":"`.
 
-To find all hyphens, we need to use not the string `"-"`, but a regexp `pattern:/-/g`, with the obligatory `pattern:g` flag:
+Para encontrar todos los guiones, no necesitamos usar un cadena `"-"` sino una expresión regular `pattern:/-/g` con la bandera `pattern:g` obligatoria:
 
 ```js run
-// replace all dashes by a colon
+// reemplazar todos los guioes por dos puntos
 alert( '12-34-56'.replace( *!*/-/g*/!*, ":" ) )  // 12:34:56
 ```
 
-The second argument is a replacement string. We can use special character in it:
+El segundo argumento es la cadena de reemplazo. Podemos usar caracteres especiales:
 
-| Symbols | Action in the replacement string |
+| Símbolos | Acción en la cadena de reemplazo |
 |--------|--------|
-|`$&`|inserts the whole match|
-|<code>$&#096;</code>|inserts a part of the string before the match|
-|`$'`|inserts a part of the string after the match|
-|`$n`|if `n` is a 1-2 digit number, inserts the contents of n-th capturing group, for details see [](info:regexp-groups)|
-|`$<name>`|inserts the contents of the parentheses with the given `name`, for details see [](info:regexp-groups)|
+|`$&`|inserta toda la coincidencia|
+|<code>$&#096;</code>|inserta una parte de la cadena antes de la coincidencia|
+|`$'`|inserta una parte de la cadena después de la coincidencia|
+|`$n`|si `n` es un 1-2 dígito númerico, inserta el contenido del enésimo grupo capturado, para más detalles ver [](info:regexp-groups)|
+|`$<nombre>`|inserta el contenido de los paréntesis con el `nombre` dado, para más detalles ver [](info:regexp-groups)|
 |`$$`|inserts character `$` |
 
-For instance:
+Por ejemplo:
 
 ```js run
 let str = "John Smith";
 
-// swap first and last name
+// intercambiar el nombre con el apellido
 alert(str.replace(/(john) (smith)/i, '$2, $1')) // Smith, John
 ```
 
-**For situations that require "smart" replacements, the second argument can be a function.**
+**Para situaciones que requieran reemplazos "inteligentes", el segundo argumento puede ser una función.**
 
-It will be called for each match, and the returned value will be inserted as a replacement.
+Puede ser llamado por cada coincidencia y el valor retornado puede ser insertado como un reemplazo.
 
-The function is called with arguments `func(match, p1, p2, ..., pn, offset, input, groups)`:
+La función es llamada con los siguientes argumentos `func(match, p1, p2, ..., pn, offset, input, groups)`:
 
-1. `match` -- the match,
-2. `p1, p2, ..., pn` -- contents of capturing groups (if there are any),
-3. `offset` -- position of the match,
-4. `input` -- the source string,
-5. `groups` -- an object with named groups.
+1. `match` -- la coincidencia,
+2. `p1, p2, ..., pn` -- contenido de los grupos capturados (si hay alguno),
+3. `offset` -- posición de la coincidencia,
+4. `input` -- la cadena de entrada,
+5. `groups` -- un objecto con los grupos nombrados.
 
-If there are no parentheses in the regexp, then there are only 3 arguments: `func(str, offset, input)`.
+Si hay paréntesis en la expresión regular, entonces solo son 3 argumentos: `func(str, offset, input)`.
 
-For example, let's uppercase all matches:
+Por ejemplo, hacer mayúsculas todas las coincidencias:
 
 ```js run
 let str = "html and css";
@@ -186,13 +186,13 @@ let result = str.replace(/html|css/gi, str => str.toUpperCase());
 alert(result); // HTML and CSS
 ```
 
-Replace each match by its position in the string:
+Reemplazar cada coincidencia por su posición en la cadena:
 
 ```js run
 alert("Ho-Ho-ho".replace(/ho/gi, (match, offset) => offset)); // 0-3-6
 ```
 
-In the example below there are two parentheses, so the replacement function is called with 5 arguments: the first is the full match, then 2 parentheses, and after it (not used in the example) the match position and the source string:
+En el ejemplo anterior hay dos paréntesis, entonces la función de reemplazo is llamada con 5 argumentos: el primero es toda la coincidencia, luego dos paréntesis, y después (no usado en el ejemplo) la posición de la coincidencia y la cadena de entrada:
 
 ```js run
 let str = "John Smith";
@@ -202,7 +202,7 @@ let result = str.replace(/(\w+) (\w+)/, (match, name, surname) => `${surname}, $
 alert(result); // Smith, John
 ```
 
-If there are many groups, it's convenient to use rest parameters to access them:
+Si hay muchos grupos, es conveniente usar parámetros rest para acceder a ellos:
 
 ```js run
 let str = "John Smith";
