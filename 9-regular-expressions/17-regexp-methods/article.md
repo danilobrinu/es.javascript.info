@@ -192,7 +192,7 @@ Reemplazar cada coincidencia por su posición en la cadena:
 alert("Ho-Ho-ho".replace(/ho/gi, (match, offset) => offset)); // 0-3-6
 ```
 
-En el ejemplo anterior hay dos paréntesis, entonces la función de reemplazo is llamada con 5 argumentos: el primero es toda la coincidencia, luego dos paréntesis, y después (no usado en el ejemplo) la posición de la coincidencia y la cadena de entrada:
+En el ejemplo anterior hay dos paréntesis, entonces la función de reemplazo es llamada con 5 argumentos: el primero es toda la coincidencia, luego dos paréntesis, y después (no usado en el ejemplo) la posición de la coincidencia y la cadena de entrada:
 
 ```js run
 let str = "John Smith";
@@ -212,7 +212,7 @@ let result = str.replace(/(\w+) (\w+)/, (...match) => `${match[2]}, ${match[1]}`
 alert(result); // Smith, John
 ```
 
-Or, if we're using named groups, then `groups` object with them is always the last, so we can obtain it like this:
+O, si estamos usando grupos nombrados, entonces el objecto `groups` con ellos es siempre el último, entonces podemos obtener algo como esto:
 
 ```js run
 let str = "John Smith";
@@ -226,13 +226,14 @@ let result = str.replace(/(?<name>\w+) (?<surname>\w+)/, (...match) => {
 alert(result); // Smith, John
 ```
 
-Using a function gives us the ultimate replacement power, because it gets all the information about the match, has access to outer variables and can do everything.
+Usando una función nos da todo el poder del reemplazo, porque obtiene toda la información de la coincidencia, teniendo acceso a variables externas y puede hacer todo.
 
 ## regexp.exec(str)
 
-The method `regexp.exec(str)` method returns a match for `regexp` in the string `str`.  Unlike previous methods, it's called on a regexp, not on a string.
+El método `regexp.exec(str)` retorna una coincidencia por expresión regular (`regexp`) en la cadena (`str`).  A diferencia de los metodos anteriores, se llama en una expresión regular en lugar de en una cadena.
 
-It behaves differently depending on whether the regexp has flag `pattern:g`.
+
+Se comporta de manera diferente dependiendo de si la expresión regular tiene la bandera `pattern:g`.
 
 If there's no `pattern:g`, then `regexp.exec(str)` returns the first match exactly as  `str.match(regexp)`. This behavior doesn't bring anything new.
 
@@ -254,24 +255,24 @@ let result;
 
 while (result = regexp.exec(str)) {
   alert( `Found ${result[0]} at position ${result.index}` );
-  // Found JavaScript at position 11, then
-  // Found javascript at position 33
+  // Se encontró JavaScript en la posición 11, luego
+  // Se encontró javascript en la posición 33
 }
 ```
 
 This works now as well, although for newer browsers `str.matchAll` is usually more convenient.
 
-**We can use `regexp.exec` to search from a given position by manually setting `lastIndex`.**
+**Podemos usar `regexp.exec` para buscar desde una posición dada configurando manualmente el `lastIndex`.**
 
-For instance:
+Por ejemplo:
 
 ```js run
-let str = 'Hello, world!';
+let str = 'Hola, mundo!';
 
-let regexp = /\w+/g; // without flag "g", lastIndex property is ignored
-regexp.lastIndex = 5; // search from 5th position (from the comma)
+let regexp = /\w+/g; // sin la bandera "g", la propiedad `lastIndex` es ignorada
+regexp.lastIndex = 5; // buscar desde la 5ta posición (desde la coma)
 
-alert( regexp.exec(str) ); // world
+alert( regexp.exec(str) ); // mundo
 ```
 
 If the regexp has flag `pattern:y`, then the search will be performed exactly at the  position `regexp.lastIndex`, not any further.
@@ -282,28 +283,28 @@ Let's replace flag `pattern:g` with `pattern:y` in the example above. There will
 let str = 'Hello, world!';
 
 let regexp = /\w+/y;
-regexp.lastIndex = 5; // search exactly at position 5
+regexp.lastIndex = 5; // buscar exactamente en la posición 5
 
 alert( regexp.exec(str) ); // null
 ```
 
-That's convenient for situations when we need to "read" something from the string by a regexp at the exact position, not somewhere further.
+Es conveniente para situaciones cuando necesitamos "leer" algo de la cadena por una expresión regular en una posición exacta. That's convenient for situations when we need to "read" something from the string by a regexp at the exact position, no en otro lugar.
 
 ## regexp.test(str)
 
-The method `regexp.test(str)` looks for a match and returns `true/false` whether it exists.
+El método `regexp.test(str)` busca por una coincidencia y retorna `true/false` si existe.
 
 For instance:
 
 ```js run
-let str = "I love JavaScript";
+let str = "Yo amo JavaScript";
 
 // these two tests do the same
 alert( *!*/love/i*/!*.test(str) ); // true
 alert( str.search(*!*/love/i*/!*) != -1 ); // true
 ```
 
-An example with the negative answer:
+Un ejemplo con respuesta negativa:
 
 ```js run
 let str = "Bla-bla-bla";
@@ -312,18 +313,18 @@ alert( *!*/love/i*/!*.test(str) ); // false
 alert( str.search(*!*/love/i*/!*) != -1 ); // false
 ```
 
-If the regexp has flag `pattern:g`, then `regexp.test` looks from `regexp.lastIndex` property and updates this property, just like `regexp.exec`.
+Si la expresión regular tiene la bandera `pattern:g`, el método `regexp.test` busca la propiedad `regexp.lastIndex` y la actualiza, igual que `regexp.exec`.
 
-So we can use it to search from a given position:
+Entonces podemos usarlo para buscar desde un posición dada:
 
 ```js run
 let regexp = /love/gi;
 
-let str = "I love JavaScript";
+let str = "Yo amo JavaScript";
 
-// start the search from position 10:
+// comienza la busqueda desde la posición 10:
 regexp.lastIndex = 10;
-alert( regexp.test(str) ); // false (no match)
+alert( regexp.test(str) ); // false (sin coincidencia)
 ```
 
 ````warn header="Same global regexp tested repeatedly on different sources may fail"
