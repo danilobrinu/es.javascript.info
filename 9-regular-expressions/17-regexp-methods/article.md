@@ -1,32 +1,32 @@
-# Methods of RegExp and String
+# Métodos de RegExp y String
 
-In this article we'll cover various methods that work with regexps in-depth.
+En este artículo vamos a abordar varios métodos que funcionan con expresiones regulares a fondo.
 
 ## str.match(regexp)
 
-The method `str.match(regexp)` finds matches for `regexp` in the string `str`.
+El método `str.match(regexp)` encuentra coincidencias para las expresiones regulares (`regexp`) en la cadena (`str`).
 
-It has 3 modes:
+Tiene 3 modos:
 
-1. If the `regexp` doesn't have flag `pattern:g`, then it returns the first match as an array with capturing groups and properties `index` (position of the match), `input` (input string, equals `str`):
+1. Si la expresión regular (`regexp`) no tiene la bandera `pattern:g`, devuelve una lista con los grupos capturados y las propiedades `index` (posición de la coincidencia), `input` (cadena de entrada, igual a `str`):
 
     ```js run
-    let str = "I love JavaScript";
+    let str = "Amo JavaScript";
 
     let result = str.match(/Java(Script)/);
 
     alert( result[0] );     // JavaScript (full match)
-    alert( result[1] );     // Script (first capturing group)
+    alert( result[1] );     // Script (primer grupo capturado)
     alert( result.length ); // 2
 
-    // Additional information:
-    alert( result.index );  // 0 (match position)
-    alert( result.input );  // I love JavaScript (source string)
+    // Información adicional:
+    alert( result.index );  // 0 (posición de la coincidencia)
+    alert( result.input );  // Amo JavaScript (cadena de entrada)
     ```
 
-2. If the `regexp` has flag `pattern:g`, then it returns an array of all matches as strings, without capturing groups and other details.
+2. Si la expresión regular (`regexp`) tiene la bandera `pattern:g`, devuelve una lista de todas las coincidencias como cadenas, sin capturar grupos y otros detalles.
     ```js run
-    let str = "I love JavaScript";
+    let str = "Yo amo JavaScript";
 
     let result = str.match(/Java(Script)/g);
 
@@ -34,12 +34,12 @@ It has 3 modes:
     alert( result.length ); // 1
     ```
 
-3. If there are no matches, no matter if there's flag `pattern:g` or not, `null` is returned.
+3. Si no hay coincidencias, no importa si tiene la bandera `pattern:g` o no, `null` es retornado.
 
-    That's an important nuance. If there are no matches, we don't get an empty array, but `null`. It's easy to make a mistake forgetting about it, e.g.:
+    Esto es algo mmuy importante. Si no hay coincidencias, no vamos a obtener un array vacío, pero si un `null`. Es fácil cometer un error olvidandolo, ej.:
 
     ```js run
-    let str = "I love JavaScript";
+    let str = "Yo amo JavaScript";
 
     let result = str.match(/HTML/);
 
@@ -47,7 +47,7 @@ It has 3 modes:
     alert(result.length); // Error: Cannot read property 'length' of null
     ```
 
-    If we want the result to be an array, we can write like this:
+    Si queremos que el resultado sea una lista, podemos escribirlo así:
 
     ```js
     let result = str.match(regexp) || [];
@@ -57,64 +57,64 @@ It has 3 modes:
 
 [recent browser="new"]
 
-The method `str.matchAll(regexp)` is a "newer, improved" variant of `str.match`.
+El método `str.matchAll(regexp)` es una variante ("nueva y mejorada") de `str.match`.
 
-It's used mainly to search for all matches with all groups.
+Es usado principalmente para buscar por todas las coincidencias con todo todos los grupos.
 
-There are 3 differences from `match`:
+Hay 3 diferencias con `match`:
 
-1. It returns an iterable object with matches instead of an array. We can make a regular array from it using `Array.from`.
-2. Every match is returned as an array with capturing groups (the same format as `str.match` without flag `pattern:g`).
-3. If there are no results, it returns not `null`, but an empty iterable object.
+1. Retorna un objecto iterable con las coincidencias en lugar de una lista. Podemos convertirlo en una lista usando el método `Array.from`.
+2. Cada coincidencia es retornada como una lista con los grupos capturados (el mismo formato de `str.match` sin la bandera `pattern:g`).
+3. Si no hay resultados, no retorna `null`, pero si un objecto iterable vacío.
 
-Usage example:
+Ejemplo de uso:
 
 ```js run
-let str = '<h1>Hello, world!</h1>';
+let str = '<h1>Hola, mundo!</h1>';
 let regexp = /<(.*?)>/g;
 
 let matchAll = str.matchAll(regexp);
 
-alert(matchAll); // [object RegExp String Iterator], not array, but an iterable
+alert(matchAll); // [object RegExp String Iterator], no es una lista, pero si un objeto iterable
 
-matchAll = Array.from(matchAll); // array now
+matchAll = Array.from(matchAll); // ahora es una lista
 
 let firstMatch = matchAll[0];
 alert( firstMatch[0] );  // <h1>
 alert( firstMatch[1] );  // h1
 alert( firstMatch.index );  // 0
-alert( firstMatch.input );  // <h1>Hello, world!</h1>
+alert( firstMatch.input );  // <h1>Hola, mundo!</h1>
 ```
 
-If we use `for..of` to loop over `matchAll` matches, then we don't need `Array.from` any more.
+Si usamos `for..of` para iterar todas las coincidencias de `matchAll`, no necesitamos `Array.from`.
 
 ## str.split(regexp|substr, limit)
 
-Splits the string using the regexp (or a substring) as a delimiter.
+Divide la cadena usando la expresión regular (o una sub-cadena) como delimitador.
 
-We can use `split` with strings, like this:
+Podemos usar `split` con cadenas, así:
 
 ```js run
-alert('12-34-56'.split('-')) // array of [12, 34, 56]
+alert('12-34-56'.split('-')) // lista de [12, 34, 56]
 ```
 
-But we can split by a regular expression, the same way:
+O también dividir una cadena usando una expresión regular de la misma forma:
 
 ```js run
-alert('12, 34, 56'.split(/,\s*/)) // array of [12, 34, 56]
+alert('12, 34, 56'.split(/,\s*/)) // lista de [12, 34, 56]
 ```
 
 ## str.search(regexp)
 
-The method `str.search(regexp)` returns the position of the first match or `-1` if none found:
+El método `str.search(regexp)` devuelve la posición de la primera coincidencia o `-1` si no encuentra nada:
 
 ```js run
-let str = "A drop of ink may make a million think";
+let str = "Una gota de tinta puede hacer pensar a un millón";
 
-alert( str.search( /ink/i ) ); // 10 (first match position)
+alert( str.search( /ink/i ) ); // 10 (posición de la primera coincidencia)
 ```
 
-**The important limitation: `search` only finds the first match.**
+**Limitación importante: solo `search` encuentra la primera coincidencia.**
 
 If we need positions of further matches, we should use other means, such as finding them all with `str.matchAll(regexp)`.
 
