@@ -151,7 +151,7 @@ El segundo argumento es la cadena de reemplazo. Podemos usar caracteres especial
 |`$'`|inserta una parte de la cadena después de la coincidencia|
 |`$n`|si `n` es un 1-2 dígito númerico, inserta el contenido del enésimo grupo capturado, para más detalles ver [](info:regexp-groups)|
 |`$<nombre>`|inserta el contenido de los paréntesis con el `nombre` dado, para más detalles ver [](info:regexp-groups)|
-|`$$`|inserts character `$` |
+|`$$`|inserta el carácter `$` |
 
 Por ejemplo:
 
@@ -212,7 +212,7 @@ let result = str.replace(/(\w+) (\w+)/, (...match) => `${match[2]}, ${match[1]}`
 alert(result); // Smith, John
 ```
 
-O, si estamos usando grupos nombrados, entonces el objecto `groups` con ellos es siempre el último, entonces podemos obtener algo como esto:
+O, si estamos usando grupos nombrados, entonces el objecto `groups` con ellos es siempre el último, por lo que podemos obtenerlos así:
 
 ```js run
 let str = "John Smith";
@@ -226,14 +226,14 @@ let result = str.replace(/(?<name>\w+) (?<surname>\w+)/, (...match) => {
 alert(result); // Smith, John
 ```
 
-Usando una función nos da todo el poder del reemplazo, porque obtiene toda la información de la coincidencia, teniendo acceso a variables externas y puede hacer todo.
+Usando una función nos da todo el poder del reemplazo, porque obtiene toda la información de la coincidencia, ya que tiene acceso a las variables externas y se puede hacer de todo.
 
 ## regexp.exec(str)
 
-El método `regexp.exec(str)` retorna una coincidencia por expresión regular (`regexp`) en la cadena (`str`).  A diferencia de los metodos anteriores, se llama en una expresión regular en lugar de en una cadena.
+El método `regexp.exec(str)` retorna una coincidencia por expresión regular (`regexp`) en la cadena (`str`). A diferencia de los metodos anteriores, se llama en una expresión regular en lugar de en una cadena.
 
 
-Se comporta de manera diferente dependiendo de si la expresión regular tiene la bandera `pattern:g`.
+Se comporta de manera diferente dependiendo de sí la expresión regular tiene la bandera `pattern:g` o no.
 
 Si no hay la bandera `pattern:g`, entonces `regexp.exec(str)` retorna la primera coindicencia igual que `str.match(regexp)`. Este comportamiento no trae nada nuevo.
 
